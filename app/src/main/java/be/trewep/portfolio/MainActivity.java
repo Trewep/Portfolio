@@ -13,8 +13,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = MainActivity.class.getSimpleName();
@@ -63,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             for (portfolioItem portfolioItem: portfolioItems){
 
                 //create new view for hold Portfolio item
-                View portfolioView = getLayoutInflater().inflate(R.layout.list_item, root:null);
+                View portfolioView = getLayoutInflater().inflate(R.layout.list_item,root: null);
 
                 //Get the Title View and populate it
                 TextView field_title = portfolioView.findViewById(R.id.field_title);
@@ -82,6 +90,37 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+        //fetch the string from the URL and interpret it as json data.
+        //Using Gson library to decode the string.
 
+        portfolioItem[] FetchPortfolioTaskAsJSON(){
+            String jsonData = getDataFromURLAsString();
+            return new GsonBuilder().create().fromJson(jsonData, portfolioItem[].class);
+        }
+        //make connection to url and fetch data as one long string
+        String getDataFromURLAsString(){
+            HttpsURLConnection urlConnection = null;
+            try {
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                InputStream in = urlConnection.getInputStream();
+
+                Scanner scanner = new Scanner(in);
+                scanner.useDelimiter("\\A");
+
+                boolean hasInput = scanner.hasNext();
+                if (hasInput){
+                    return scanner.next();
+                }
+                else{
+                    return null;
+                }
+            } catch (IOException error){
+                Log.e(TAG, error.getMessage());
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return "";
+        }
     }
 }
