@@ -1,37 +1,13 @@
 package be.trewep.portfolio;
 
-/*import androidx.recyclerview.widget.RecyclerView;
 
-public class portfolioItem extends RecyclerView.Adapter<portfolioItem.> {
-    int id;
-    String field_title;
-    String field_omschrijving;
-    String field_afbeelding;
-    String field_tags;
-    String field_url;
+public class portfolioItem {
+    private String mTitle;
 
-    public String getField_title(){
-        return field_title;
+    public portfolioItem(String Title){
+        mTitle = Title;
     }
-
-    public String getField_omschrijving(){
-        return field_omschrijving;
+    public String getTitle(){
+        return mTitle;
     }
-
-    public String getField_tags(){
-        return field_tags;
-    }
-
-    public String getField_url(){
-        return field_url;
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public  void setId(int id){
-        this.id=id;
-    }
-
-}*/
+}

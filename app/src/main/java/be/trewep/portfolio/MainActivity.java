@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                                 String title = portfolio.getString("title");
                                 //String omschrijving = portfolio.getString("field_omschrijving");
                                 //String tags = portfolio.getString("field_tags");
-                                mfield_title.append(title);
+                                mfield_title.append(title + "\n \n");
                                 //mfield_omschrijving.append(omschrijving);
                                 //mfield_tags.append(tags);
 
