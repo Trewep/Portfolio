@@ -20,16 +20,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
-    static final String TAG = MainActivity.class.getSimpleName();
+    private static final String JsonUrlStr = "https://drupal.trewep.be/api/portfolio";
+    private final LinkedList<Integer>mNumberList = new LinkedList<>();
+    private RecyclerView mRecyclerView;
 
-    static final String JsonUrlStr = "https://drupal.trewep.be/api/portfolio";
-
-    LinearLayout rootLayout;
+   /* LinearLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,5 +123,5 @@ public class MainActivity extends AppCompatActivity {
             }
             return "";
         }
-    }
+    }*/
 }
