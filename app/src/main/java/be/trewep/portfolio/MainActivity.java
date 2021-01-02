@@ -1,34 +1,47 @@
 package be.trewep.portfolio;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.google.gson.GsonBuilder;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.LinkedList;
-import java.util.Scanner;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String JsonUrlStr = "https://drupal.trewep.be/api/portfolio";
+    private static final String myURL = "https://drupal.trewep.be/api/portfolio";
     private final LinkedList<Integer>mNumberList = new LinkedList<>();
     private RecyclerView mRecyclerView;
+    RequestQueue mQueue;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mQueue = Volley.newRequestQueue(this);
+
+        Intent intent = getIntent();
+        int number = intent.getIntExtra("MAXNUMBER", 100);
+
+        populateList(number);
+
+        mRecyclerView = findViewById(R.id.recycler);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
 
    /* LinearLayout rootLayout;
 
