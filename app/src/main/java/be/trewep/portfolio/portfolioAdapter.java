@@ -12,12 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class portfolioAdapter  extends RecyclerView.Adapter<portfolioAdapter.portfolioViewHolder> {
+public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.portfolioViewHolder> {
 
     private Context mContext;
-    private ArrayList <portfolioItem> mPortfolioList;
+    private ArrayList<portfolioItem> mPortfolioList;
+    private onItemClickListener mListener;
 
-    public portfolioAdapter(Context context, ArrayList<portfolioItem> portfolioList){
+    public interface onItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public portfolioAdapter(Context context, ArrayList<portfolioItem> portfolioList) {
         mContext = context;
         mPortfolioList = portfolioList;
     }
@@ -31,11 +40,16 @@ public class portfolioAdapter  extends RecyclerView.Adapter<portfolioAdapter.por
 
     @Override
     public void onBindViewHolder(@NonNull portfolioViewHolder holder, int position) {
-        portfolioItem currentItem =mPortfolioList.get(position);
+        portfolioItem currentItem = mPortfolioList.get(position);
 
         String title = currentItem.getTitle();
+        String omschrijving = currentItem.getOmschrijving();
+        String tag = currentItem.getTag();
+        String link = currentItem.getLink();
 
         holder.mTextViewTitle.setText(title);
+
+
 
     }
 
@@ -44,15 +58,30 @@ public class portfolioAdapter  extends RecyclerView.Adapter<portfolioAdapter.por
         return mPortfolioList.size();
     }
 
-    public class portfolioViewHolder extends RecyclerView.ViewHolder{
+    public class portfolioViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mTextViewTitle;
+
 
         public portfolioViewHolder(@NonNull View itemView) {
 
             super(itemView);
 
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+
+                        if (position != RecyclerView.NO_POSITION) {
+
+                        }mListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }

@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -30,17 +32,17 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity {
-    //private TextView mfield_title;
-    //private TextView mfield_omschrijving;
-    //private TextView mfield_tags;
-    //private RequestQueue mQueue;
+public class MainActivity extends AppCompatActivity  implements portfolioAdapter.onItemClickListener {
+
+    public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_OMSCHRIJVING = "omschrijving";
+    public static final String EXTRA_TAG ="tag";
+    public static final String EXTRA_LINK = "link";
 
     private RecyclerView mRecyclerView;
     private portfolioAdapter mPortfolioAdapter;
     private ArrayList<portfolioItem> mPortfolioList;
     private RequestQueue mRequestQueue;
-
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -69,11 +71,15 @@ public class MainActivity extends AppCompatActivity {
                             for (int i = 0; i< response.length();i++){
                                 JSONObject portfolio = response.getJSONObject(i);
                                 String title = portfolio.getString("title");
+                                String omschrijving = portfolio.getString("omschrijving");
+                                String tag = portfolio.getString("tag");
+                                String Link = portfolio.getString("link");
 
-                                mPortfolioList.add(new portfolioItem(title));
+                                mPortfolioList.add(new portfolioItem(title, omschrijving, tag, Link));
                             }
                             mPortfolioAdapter = new portfolioAdapter(MainActivity.this, mPortfolioList);
                             mRecyclerView.setAdapter(mPortfolioAdapter);
+                            mPortfolioAdapter.setOnItemClickListener(MainActivity.this);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -88,45 +94,16 @@ public class MainActivity extends AppCompatActivity {
         mRequestQueue.add(request);
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        portfolioItem clickedItem = mPortfolioList.get(position);
 
-       /* mfield_title = findViewById(R.id.field_title);
-        //mfield_omschrijving = findViewById(R.id.field_omschrijving);
-        //mfield_tags = findViewById(R.id.field_tags);
+        detailIntent.putExtra(EXTRA_TITLE, clickedItem.getTitle());
+        detailIntent.putExtra(EXTRA_OMSCHRIJVING, clickedItem.getOmschrijving());
+        detailIntent.putExtra(EXTRA_TAG, clickedItem.getTag());
+        detailIntent.putExtra(EXTRA_LINK, clickedItem.getLink());
+        startActivity(detailIntent);
 
-        mQueue = Volley.newRequestQueue(this);
-
-        jsonParse();
-
-    private void jsonParse(){
-         String url ="https://drupal.trewep.be/api/portfolio";
-
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-
-                            for (int i = 0; i< response.length();i++){
-                                JSONObject portfolio = response.getJSONObject(i);
-
-                                String title = portfolio.getString("title");
-                                //String omschrijving = portfolio.getString("field_omschrijving");
-                                //String tags = portfolio.getString("field_tags");
-                                mfield_title.append(title + "\n \n");
-                                //mfield_omschrijving.append(omschrijving);
-                                //mfield_tags.append(tags);
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mQueue.add(request);
-    }*/
+    }
 }
