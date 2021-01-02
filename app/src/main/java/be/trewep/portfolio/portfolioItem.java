@@ -1,6 +1,8 @@
 package be.trewep.portfolio;
 
-public class portfolioItem {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class portfolioItem extends RecyclerView.Adapter<portfolioItem.> {
     int id;
     String field_title;
     String field_omschrijving;

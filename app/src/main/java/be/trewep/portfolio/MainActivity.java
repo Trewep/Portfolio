@@ -7,24 +7,70 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String myURL = "https://drupal.trewep.be/api/portfolio";
+    private TextView mfield_title;
+    private TextView mfield_omschrijving;
+    private TextView mfield_tags;
+    private TextView mfield_url;
+    private RequestQueue mQueue;
+
+
+    @Override
+    protected void onCreate (Bundle savedInstanceState){
+        super.onCreate (savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mfield_title = findViewById(R.id.field_title);
+        mfield_omschrijving = findViewById(R.id.field_omschrijving);
+        mfield_tags = findViewById(R.id.field_tags);
+        mfield_url = findViewById(R.id.field_url);
+
+        mQueue = Volley.newRequestQueue(this);
+
+        jsonParse();
+
+    }
+    private void jsonParse(){
+         String url ="https://drupal.trewep.be/api/portfolio";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        JSONArray jsonArray = response.getJSONArray()
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+    }
+   /* private static final String myURL = "https://drupal.trewep.be/api/portfolio";
     private final LinkedList<Integer>mNumberList = new LinkedList<>();
     private RecyclerView mRecyclerView;
+    private portfolioItem mAdapter;
     RequestQueue mQueue;
 
     @Override
@@ -36,12 +82,20 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int number = intent.getIntExtra("MAXNUMBER", 100);
 
-        populateList(number);
+        populateList(20);
 
         mRecyclerView = findViewById(R.id.recycler);
+        mAdapter = new portfolioItem(context: this, mNumberList); // List is empty at this point
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
+    private void populateList(int max){
+        for (int i = 1; i<=max; i++){
+            mNumberList.add(i);
+        }
+    }*/
 
    /* LinearLayout rootLayout;
 
