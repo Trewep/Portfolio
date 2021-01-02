@@ -26,29 +26,77 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PrivateKey;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView mfield_title;
-    private TextView mfield_omschrijving;
-    private TextView mfield_tags;
-    private RequestQueue mQueue;
+    //private TextView mfield_title;
+    //private TextView mfield_omschrijving;
+    //private TextView mfield_tags;
+    //private RequestQueue mQueue;
+
+    private RecyclerView mRecyclerView;
+    private portfolioAdapter mPortfolioAdapter;
+    private ArrayList<portfolioItem> mPortfolioList;
+    private RequestQueue mRequestQueue;
 
 
     @Override
-    protected void onCreate (Bundle savedInstanceState){
-        super.onCreate (savedInstanceState);
+    protected void onCreate (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mfield_title = findViewById(R.id.field_title);
-        /*mfield_omschrijving = findViewById(R.id.field_omschrijving);
-        mfield_tags = findViewById(R.id.field_tags);*/
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mPortfolioList = new ArrayList<>();
+
+        mRequestQueue = Volley.newRequestQueue(this);
+        parseJSON();
+    }
+
+    private void parseJSON(){
+        String url = "https://drupal.trewep.be/api/portfolio";
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+
+                            for (int i = 0; i< response.length();i++){
+                                JSONObject portfolio = response.getJSONObject(i);
+                                String title = portfolio.getString("title");
+
+                                mPortfolioList.add(new portfolioItem(title));
+                            }
+                            mPortfolioAdapter = new portfolioAdapter(MainActivity.this, mPortfolioList);
+                            mRecyclerView.setAdapter(mPortfolioAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mRequestQueue.add(request);
+    }
+
+
+       /* mfield_title = findViewById(R.id.field_title);
+        //mfield_omschrijving = findViewById(R.id.field_omschrijving);
+        //mfield_tags = findViewById(R.id.field_tags);
 
         mQueue = Volley.newRequestQueue(this);
 
         jsonParse();
 
-    }
     private void jsonParse(){
          String url ="https://drupal.trewep.be/api/portfolio";
 
@@ -80,5 +128,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mQueue.add(request);
-    }
+    }*/
 }
