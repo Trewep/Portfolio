@@ -1,6 +1,6 @@
 package be.trewep.portfolio;
 
-import androidx.recyclerview.widget.RecyclerView;
+/*import androidx.recyclerview.widget.RecyclerView;
 
 public class portfolioItem extends RecyclerView.Adapter<portfolioItem.> {
     int id;
@@ -34,4 +34,4 @@ public class portfolioItem extends RecyclerView.Adapter<portfolioItem.> {
         this.id=id;
     }
 
-}
+}*/
