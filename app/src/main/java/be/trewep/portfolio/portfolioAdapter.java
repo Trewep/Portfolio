@@ -12,17 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.portfolioViewHolder> {
 
+public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.portfolioViewHolder>{
     private Context mContext;
     private ArrayList<portfolioItem> mPortfolioList;
     private onItemClickListener mListener;
 
-    public interface onItemClickListener {
+    public interface onItemClickListener{
+
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(onItemClickListener listener) {
+    public void setOnClickListener(onItemClickListener listener){
         mListener = listener;
     }
 
@@ -31,15 +32,15 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
         mPortfolioList = portfolioList;
     }
 
-    @NonNull
+
     @Override
-    public portfolioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public portfolioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.portfolioitem, parent, false);
         return new portfolioViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull portfolioViewHolder holder, int position) {
+    public void onBindViewHolder(portfolioViewHolder holder, int position) {
         portfolioItem currentItem = mPortfolioList.get(position);
 
         String title = currentItem.getTitle();
@@ -48,8 +49,9 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
         String link = currentItem.getLink();
 
         holder.mTextViewTitle.setText(title);
-
-
+        holder.mTextViewOmschrijving.setText(omschrijving);
+        holder.mTextViewtag.setText(tag);
+        holder.mTextViewLink.setText(link);
 
     }
 
@@ -58,27 +60,28 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
         return mPortfolioList.size();
     }
 
-    public class portfolioViewHolder extends RecyclerView.ViewHolder {
+    public class portfolioViewHolder extends RecyclerView.ViewHolder{
 
         public TextView mTextViewTitle;
+        public TextView mTextViewOmschrijving;
+        public TextView mTextViewtag;
+        public TextView mTextViewLink;
 
-
-        public portfolioViewHolder(@NonNull View itemView) {
-
+        public portfolioViewHolder(View itemView) {
             super(itemView);
-
             mTextViewTitle = itemView.findViewById(R.id.text_view_title);
-
+            mTextViewOmschrijving = itemView.findViewById(R.id.text_view_Omschrijving_detail);
+            mTextViewtag = itemView.findViewById(R.id.text_view_tag_detail);
+            mTextViewLink = itemView.findViewById(R.id.text_view_link_detail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mListener != null) {
+                    if (mListener != null){
                         int position = getAdapterPosition();
-
                         if (position != RecyclerView.NO_POSITION) {
-
-                        }mListener.onItemClick(position);
+                            mListener.onItemClick(position);
+                        }
                     }
                 }
             });

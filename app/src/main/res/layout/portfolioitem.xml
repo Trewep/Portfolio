@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,7 +18,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textSize="20sp"/>
+            android:textSize="40sp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/text_view_Omschrijving_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Omschrijving"
+            android:textSize="30dp"
+            android:layout_marginStart="20dp" />
+
+        <TextView
+            android:id="@+id/text_view_tag_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tags"
+            android:textSize="20dp"
+            android:layout_marginStart="20dp" />
+
+        <Button
+            android:id="@+id/text_view_link_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SHARE"
+            android:textSize="20dp"
+            android:layout_marginStart="50dp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,12 +9,12 @@
     tools:context=".DetailActivity">
 
     <TextView
-        android:id="@+id/text_view_title_detail"
+        android:id="@+id/text_view_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Title"
-        android:textSize="40dp"
-        android:layout_marginStart="16dp" />
+        android:textSize="100dp"
+        android:layout_marginStart="20dp" />
 
     <TextView
         android:id="@+id/text_view_Omschrijving_detail"
@@ -31,4 +31,12 @@
         android:text="tags"
         android:textSize="20dp"
         android:layout_marginStart="20dp" />
+
+    <Button
+        android:id="@+id/text_view_link_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHARE"
+        android:textSize="20dp"
+        android:layout_marginStart="50dp"/>
 </LinearLayout>

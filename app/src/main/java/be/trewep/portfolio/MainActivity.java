@@ -32,7 +32,7 @@ import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class MainActivity extends AppCompatActivity  implements portfolioAdapter.onItemClickListener {
+public class MainActivity extends AppCompatActivity implements portfolioAdapter.onItemClickListener {
 
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_OMSCHRIJVING = "omschrijving";
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity  implements portfolioAdapter
     private RequestQueue mRequestQueue;
 
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -57,29 +57,33 @@ public class MainActivity extends AppCompatActivity  implements portfolioAdapter
 
         mRequestQueue = Volley.newRequestQueue(this);
         parseJSON();
+
     }
 
-    private void parseJSON(){
+    private void parseJSON() {
         String url = "https://drupal.trewep.be/api/portfolio";
-
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
 
-                            for (int i = 0; i< response.length();i++){
-                                JSONObject portfolio = response.getJSONObject(i);
-                                String title = portfolio.getString("title");
-                                String omschrijving = portfolio.getString("omschrijving");
-                                String tag = portfolio.getString("tag");
-                                String Link = portfolio.getString("link");
 
-                                mPortfolioList.add(new portfolioItem(title, omschrijving, tag, Link));
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject portfolio = response.getJSONObject(i);
+
+                                String title = portfolio.getString("title");
+                                String omschrijving = portfolio.getString("field_omschrijving");
+                                String tag = portfolio.getString("field_tags");
+                                String link = portfolio.getString("view_node");
+
+                                mPortfolioList.add(new portfolioItem(title, omschrijving, tag, link));
+
                             }
+
                             mPortfolioAdapter = new portfolioAdapter(MainActivity.this, mPortfolioList);
                             mRecyclerView.setAdapter(mPortfolioAdapter);
-                            mPortfolioAdapter.setOnItemClickListener(MainActivity.this);
+                            mPortfolioAdapter.setOnClickListener(MainActivity.this);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -91,6 +95,7 @@ public class MainActivity extends AppCompatActivity  implements portfolioAdapter
                 error.printStackTrace();
             }
         });
+
         mRequestQueue.add(request);
     }
 
@@ -103,7 +108,5 @@ public class MainActivity extends AppCompatActivity  implements portfolioAdapter
         detailIntent.putExtra(EXTRA_OMSCHRIJVING, clickedItem.getOmschrijving());
         detailIntent.putExtra(EXTRA_TAG, clickedItem.getTag());
         detailIntent.putExtra(EXTRA_LINK, clickedItem.getLink());
-        startActivity(detailIntent);
-
     }
 }
