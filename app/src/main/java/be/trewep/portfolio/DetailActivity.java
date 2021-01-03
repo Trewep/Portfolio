@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
@@ -14,7 +16,7 @@ import static be.trewep.portfolio.MainActivity.EXTRA_TAG;
 import static be.trewep.portfolio.MainActivity.EXTRA_TITLE;
 
 public class DetailActivity extends AppCompatActivity {
-
+    Button link;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +33,11 @@ public class DetailActivity extends AppCompatActivity {
         TextView textViewTag = findViewById(R.id.text_view_tag_detail);
         TextView textViewLink = findViewById(R.id.text_view_link_detail);
 
-
         textViewTitle.setText(title);
         textViewOmschrijving.setText(omschrijving);
         textViewTag.setText(tag);
         textViewLink.setText(link);
+
+
     }
 }

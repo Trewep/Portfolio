@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements portfolioAdapter.
     public static final String EXTRA_TAG ="tag";
     public static final String EXTRA_LINK = "link";
 
+
     private RecyclerView mRecyclerView;
     private portfolioAdapter mPortfolioAdapter;
     private ArrayList<portfolioItem> mPortfolioList;
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements portfolioAdapter.
 
         mRequestQueue = Volley.newRequestQueue(this);
         parseJSON();
+
 
     }
 
@@ -108,5 +111,7 @@ public class MainActivity extends AppCompatActivity implements portfolioAdapter.
         detailIntent.putExtra(EXTRA_OMSCHRIJVING, clickedItem.getOmschrijving());
         detailIntent.putExtra(EXTRA_TAG, clickedItem.getTag());
         detailIntent.putExtra(EXTRA_LINK, clickedItem.getLink());
+
     }
+
 }
