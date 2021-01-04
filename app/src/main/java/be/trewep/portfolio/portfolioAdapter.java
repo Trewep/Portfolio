@@ -5,6 +5,8 @@ import android.graphics.PorterDuffColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +19,16 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
     private Context mContext;
     private ArrayList<portfolioItem> mPortfolioList;
     private onItemClickListener mListener;
+    private onItemClickListener mListenerShare;
 
     public interface onItemClickListener{
 
         void onItemClick(int position);
     }
 
-    public void setOnClickListener(onItemClickListener listener){
+    public void setOnClickListener(onItemClickListener listener, onItemClickListener listenerShare){
         mListener = listener;
+        mListenerShare = listenerShare;
     }
 
     public portfolioAdapter(Context context, ArrayList<portfolioItem> portfolioList) {
@@ -66,6 +70,7 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
         public TextView mTextViewOmschrijving;
         public TextView mTextViewtag;
         public TextView mTextViewLink;
+        public Button mButton;
 
         public portfolioViewHolder(View itemView) {
             super(itemView);
@@ -73,7 +78,19 @@ public class portfolioAdapter extends RecyclerView.Adapter<portfolioAdapter.port
             mTextViewOmschrijving = itemView.findViewById(R.id.text_view_Omschrijving_detail);
             mTextViewtag = itemView.findViewById(R.id.text_view_tag_detail);
             mTextViewLink = itemView.findViewById(R.id.text_view_link_detail);
+            mButton = itemView.findViewById(R.id.share);
 
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListenerShare != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListenerShare.onItemClick(position);
+                        }
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
