@@ -33,6 +33,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView textViewTag = findViewById(R.id.text_view_tag_detail);
         TextView textViewLink = findViewById(R.id.text_view_link_detail);
 
+
         textViewTitle.setText(title);
         textViewOmschrijving.setText(omschrijving);
         textViewTag.setText(tag);

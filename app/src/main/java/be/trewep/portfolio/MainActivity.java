@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements portfolioAdapter.
     public static final String EXTRA_LINK = "link";
 
 
+
     private RecyclerView mRecyclerView;
     private portfolioAdapter mPortfolioAdapter;
     private ArrayList<portfolioItem> mPortfolioList;
@@ -118,14 +119,29 @@ public class MainActivity extends AppCompatActivity implements portfolioAdapter.
 
     @Override
     public void onItemClick(int position) {
-        /*Intent detailIntent = new Intent(this, DetailActivity.class);
+        Intent detailIntent = new Intent(this, DetailActivity.class);
         portfolioItem clickedItem = mPortfolioList.get(position);
 
         detailIntent.putExtra(EXTRA_TITLE, clickedItem.getTitle());
         detailIntent.putExtra(EXTRA_OMSCHRIJVING, clickedItem.getOmschrijving());
         detailIntent.putExtra(EXTRA_TAG, clickedItem.getTag());
         detailIntent.putExtra(EXTRA_LINK, clickedItem.getLink());
-        startActivity(detailIntent);*/
+        mPortfolioAdapter.setOnClickListener(MainActivity.this, new portfolioAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                portfolioItem clickedItem = mPortfolioList.get(position);
+
+                String title = clickedItem.getTitle();
+                String Link = clickedItem.getLink();
+
+                Intent mSharingIntent = new Intent(Intent.ACTION_SEND);
+                mSharingIntent.setType("text/plain");
+                mSharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Trewep - Portfolio");
+                mSharingIntent.putExtra(Intent.EXTRA_TEXT, title + " - "+ Link);
+                startActivity(Intent.createChooser(mSharingIntent, "Share"));
+            }
+        });
+        startActivity(detailIntent);
 
 
 
