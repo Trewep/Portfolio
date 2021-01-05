@@ -16,7 +16,7 @@ import static be.trewep.portfolio.MainActivity.EXTRA_TAG;
 import static be.trewep.portfolio.MainActivity.EXTRA_TITLE;
 
 public class DetailActivity extends AppCompatActivity {
-    Button link;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
